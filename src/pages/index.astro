@@ -1,9 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import logo from '../assets/logo.png';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -44,6 +46,7 @@ function formatDate(date: Date): string {
 				gap: 0.75rem;
 				margin-bottom: 1.5rem;
 				text-decoration: none;
+				flex-wrap: wrap;
 			}
 			
 			.header-logo {
@@ -87,6 +90,13 @@ function formatDate(date: Date): string {
 				padding: 0 2rem 8rem 2rem;
 			}
 			
+			@media (max-width: 768px) {
+				.post-list-container {
+					padding-left: 1rem;
+					padding-right: 1rem;
+				}
+			}
+			
 			.post-list {
 				list-style: none;
 				padding: 0;
@@ -118,7 +128,7 @@ function formatDate(date: Date): string {
 			
 			/* 第二行：大标题 */
 			.post-title {
-				font-size: 2rem;
+				font-size: 2.25rem;
 				font-weight: 700;
 				color: #6366f1;
 				background-image: none;
@@ -150,11 +160,12 @@ function formatDate(date: Date): string {
 			/* 响应式设计 */
 			@media (max-width: 768px) {
 				.page-header {
-					padding: 4rem 1.5rem 3rem 1.5rem;
+					padding: 4rem 1rem 3rem 1rem;
 				}
 				
 				.header-logo-title {
-					gap: 0.625rem;
+					flex-direction: column;
+					gap: 0.5rem;
 				}
 				
 				.header-logo {
@@ -167,15 +178,17 @@ function formatDate(date: Date): string {
 				}
 				
 				.header-subtitle {
-					font-size: 1rem;
+					font-size: 0.9375rem;
 				}
 				
 				.post-list-container {
-					padding: 0 1.5rem 6rem 1.5rem;
+					padding-left: 1rem;
+					padding-right: 1rem;
+					padding-bottom: 6rem;
 				}
 				
 				.post-title {
-					font-size: 1.75rem;
+					font-size: 1.5rem;
 				}
 				
 				.post-item {
@@ -184,12 +197,25 @@ function formatDate(date: Date): string {
 			}
 			
 			@media (max-width: 480px) {
+				.page-header {
+					padding: 3rem 1rem 2rem 1rem;
+				}
+				
+				.header-logo-title {
+					flex-direction: column;
+					gap: 0.5rem;
+				}
+				
 				.header-logo {
 					height: 28px;
 				}
 				
 				.header-title {
 					font-size: 1.25rem;
+				}
+				
+				.header-subtitle {
+					font-size: 0.875rem;
 				}
 				
 				.post-title {
@@ -203,7 +229,15 @@ function formatDate(date: Date): string {
 		<!-- 页眉区域 -->
 		<header class="page-header">
 			<div class="header-logo-title">
-				<img src="/logo.png" alt="Tom Blog Logo" class="header-logo" />
+				<Image
+					src={logo}
+					alt="Tom Blog Logo"
+					class="header-logo"
+					width={72}
+					height={72}
+					loading="eager"
+					fetchpriority="high"
+				/>
 				<h1 class="header-title">{SITE_TITLE}</h1>
 			</div>
 			<p class="header-subtitle">探索科技、思维与生活的边界</p>

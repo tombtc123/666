@@ -215,7 +215,16 @@ hr {
 	}
 	
 	main {
-		padding: 1em;
+		padding-left: 1rem;
+		padding-right: 1rem;
+		padding-top: 2em;
+		padding-bottom: 2em;
+	}
+	
+	/* 确保所有图片在移动端响应式 */
+	img {
+		max-width: 100%;
+		height: auto;
 	}
 }
 
