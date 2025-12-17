@@ -1,14 +1,16 @@
 ---
 import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
+import type { CollectionEntry, MarkdownHeading } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & {
+	headings?: MarkdownHeading[];
+};
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, headings = [] } = Astro.props;
 ---
 
 <html lang="en">
@@ -27,12 +29,20 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				display: block;
 				margin: 0 auto;
 			}
+			.article-container {
+				display: flex;
+				max-width: 1200px;
+				margin: 0 auto;
+				gap: 2rem;
+				align-items: flex-start;
+			}
 			.prose {
+				flex: 1;
 				width: 680px;
 				max-width: calc(100% - 2em);
-				margin: auto;
+				margin: 0 auto;
 				padding: 1em;
-				color: #333;
+				/* 字体、字号、行高、颜色等排版样式已在 global.css 中定义 */
 			}
 			.title {
 				margin-bottom: 1em;
@@ -46,9 +56,82 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			.date {
 				margin-bottom: 0.5em;
 				color: #666;
+				transition: color 0.2s ease;
+			}
+			
+			html.dark .date {
+				color: #aaaaaa;
 			}
 			.last-updated-on {
 				font-style: italic;
+			}
+			.toc {
+				position: sticky;
+				top: 2rem;
+				width: 200px;
+				max-height: calc(100vh - 4rem);
+				overflow-y: auto;
+				padding: 1rem 0;
+				font-size: 0.875rem;
+				line-height: 1.6;
+			}
+			.toc-title {
+				font-size: 0.75rem;
+				font-weight: 600;
+				color: #888;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+				margin-bottom: 0.75rem;
+				transition: color 0.2s ease;
+			}
+			
+			html.dark .toc-title {
+				color: #aaaaaa;
+			}
+			.toc-list {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.toc-item {
+				margin-bottom: 0.5rem;
+			}
+			.toc-link {
+				color: #888;
+				text-decoration: none;
+				display: block;
+				transition: color 0.2s;
+			}
+			
+			html.dark .toc-link {
+				color: #aaaaaa;
+			}
+			
+			.toc-link:hover {
+				color: var(--text-color);
+			}
+			
+			.toc-link.active {
+				color: var(--text-color);
+				font-weight: 500;
+			}
+			.toc-item-h3 {
+				padding-left: 1rem;
+			}
+			.prose :global(h2),
+			.prose :global(h3) {
+				scroll-margin-top: 2rem;
+			}
+			@media (max-width: 1024px) {
+				.toc {
+					display: none;
+				}
+				.article-container {
+					flex-direction: column;
+				}
+				.prose {
+					width: 100%;
+				}
 			}
 		</style>
 	</head>
@@ -60,25 +143,127 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				<div class="hero-image">
 					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
 				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
+				<div class="article-container">
+					<div class="prose">
+						<div class="title">
+							<div class="date">
+								<FormattedDate date={pubDate} />
+								{
+									updatedDate && (
+										<div class="last-updated-on">
+											Last updated on <FormattedDate date={updatedDate} />
+										</div>
+									)
+								}
+							</div>
+							<h1>{title}</h1>
+							<hr />
 						</div>
-						<h1>{title}</h1>
-						<hr />
+						<slot />
 					</div>
-					<slot />
+					{headings.length > 0 && (
+						<nav class="toc" id="toc">
+							<div class="toc-title">目录</div>
+							<ul class="toc-list">
+								{headings.map((heading) => {
+									// 使用 heading.slug（如果存在），否则生成一个
+									const slug = heading.slug || heading.text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+									return (
+										<li class={`toc-item ${heading.depth === 3 ? 'toc-item-h3' : ''}`}>
+											<a href={`#${slug}`} class="toc-link" data-slug={slug}>
+												{heading.text}
+											</a>
+										</li>
+									);
+								})}
+							</ul>
+						</nav>
+					)}
 				</div>
 			</article>
 		</main>
 		<Footer />
+		<script>
+			// 生成 slug（与 Astro 默认行为一致）
+			function generateSlug(text) {
+				return text
+					.toLowerCase()
+					.replace(/[^\w\s-]/g, '')
+					.replace(/\s+/g, '-')
+					.replace(/-+/g, '-')
+					.trim();
+			}
+
+			// 为标题添加 ID（如果还没有）
+			document.addEventListener('DOMContentLoaded', () => {
+				const headings = document.querySelectorAll('.prose h2, .prose h3');
+				headings.forEach((heading) => {
+					if (!heading.id) {
+						const text = heading.textContent || '';
+						heading.id = generateSlug(text);
+					}
+				});
+
+				// 平滑滚动
+				const tocLinks = document.querySelectorAll('.toc-link');
+				tocLinks.forEach((link) => {
+					link.addEventListener('click', (e) => {
+						e.preventDefault();
+						const targetId = link.getAttribute('href')?.slice(1) || '';
+						const targetElement = document.getElementById(targetId);
+						if (targetElement) {
+							const headerOffset = 80;
+							const elementPosition = targetElement.getBoundingClientRect().top;
+							const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+							
+							window.scrollTo({
+								top: offsetPosition,
+								behavior: 'smooth'
+							});
+							// 更新 URL 但不触发滚动
+							window.history.pushState(null, '', `#${targetId}`);
+						}
+					});
+				});
+
+				// 高亮当前阅读位置
+				const updateActiveTocLink = () => {
+					const headings = document.querySelectorAll('.prose h2, .prose h3');
+					const tocLinks = document.querySelectorAll('.toc-link');
+					
+					let current = '';
+					const scrollPosition = window.scrollY + 200; // 提前触发距离
+					
+					headings.forEach((heading) => {
+						const headingTop = heading.getBoundingClientRect().top + window.pageYOffset;
+						if (scrollPosition >= headingTop) {
+							current = heading.id;
+						}
+					});
+
+					tocLinks.forEach((link) => {
+						const slug = link.getAttribute('data-slug');
+						if (slug === current) {
+							link.classList.add('active');
+						} else {
+							link.classList.remove('active');
+						}
+					});
+				};
+
+				// 使用 throttle 优化滚动性能
+				let ticking = false;
+				window.addEventListener('scroll', () => {
+					if (!ticking) {
+						window.requestAnimationFrame(() => {
+							updateActiveTocLink();
+							ticking = false;
+						});
+						ticking = true;
+					}
+				});
+				updateActiveTocLink(); // 初始调用
+			});
+		</script>
 	</body>
 </html>

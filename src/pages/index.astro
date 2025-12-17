@@ -2,13 +2,20 @@
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+// 格式化日期为中文格式：2025年12月17日
+function formatDate(date: Date): string {
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	return `${year}年${month}月${day}日`;
+}
 ---
 
 <!doctype html>
@@ -16,55 +23,211 @@ const posts = (await getCollection('blog')).sort(
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
-			main {
-				text-align: center;
+			body {
+				background: var(--bg-color);
+				margin: 0;
+				padding: 0;
+				transition: background-color 0.2s ease, color 0.2s ease;
 			}
+			
+			/* 页眉区域 */
+			.page-header {
+				text-align: center;
+				padding: 6rem 2rem 4rem 2rem;
+				max-width: 100%;
+			}
+			
+			.header-logo-title {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 0.75rem;
+				margin-bottom: 1.5rem;
+				text-decoration: none;
+			}
+			
+			.header-logo {
+				height: 36px;
+				width: auto;
+				display: block;
+				object-fit: contain;
+			}
+			
+			.header-title {
+				font-family: 'Merriweather', 'Georgia', 'Times New Roman', serif;
+				font-size: 1.75rem;
+				font-weight: 700;
+				margin: 0;
+				background-image: linear-gradient(135deg, #34d399, #3b82f6);
+				background-clip: text;
+				-webkit-background-clip: text;
+				color: transparent;
+				line-height: 1.2;
+				letter-spacing: -0.02em;
+				padding-bottom: 0.1em;
+				display: inline-block;
+			}
+			
+			.header-subtitle {
+				font-size: 1.125rem;
+				color: #888888;
+				font-weight: 400;
+				margin: 0;
+				font-style: normal;
+			}
+			
+			html.dark .header-subtitle {
+				color: #aaaaaa;
+			}
+			
+			/* 文章列表容器 */
+			.post-list-container {
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 0 2rem 8rem 2rem;
+			}
+			
 			.post-list {
 				list-style: none;
 				padding: 0;
 				margin: 0;
 			}
+			
 			.post-item {
-				margin-bottom: 2em;
+				margin-bottom: 4rem;
 			}
+			
 			.post-item a {
 				text-decoration: none;
-				color: #333;
+				color: inherit;
 				display: block;
 			}
-			.post-item a:hover {
-				opacity: 0.7;
+			
+			/* 第一行：元数据 */
+			.post-meta {
+				font-size: 0.875rem;
+				color: #999999;
+				margin-bottom: 0.75rem;
+				letter-spacing: 0.01em;
+				transition: color 0.2s ease;
 			}
-			.post-date {
-				font-size: 0.9em;
-				margin-bottom: 0.3em;
-				color: #666;
+			
+			html.dark .post-meta {
+				color: #888888;
 			}
+			
+			/* 第二行：大标题 */
 			.post-title {
-				font-size: 1.2em;
-				margin: 0;
-				font-weight: 400;
+				font-size: 2rem;
+				font-weight: 700;
+				color: #6366f1;
+				background-image: none;
+				-webkit-text-fill-color: initial;
+				background-clip: border-box;
+				margin: 0 0 0.5rem 0;
+				line-height: 1.3;
+				transition: color 0.2s ease;
+			}
+			
+			.post-item a:hover .post-title {
+				color: #4f46e5;
+			}
+			
+			/* 第三行：副标题/描述 */
+			.post-description {
+				font-size: 1rem;
+				color: #666666;
+				margin: 0 0 0.5rem 0;
+				line-height: 1.6;
+				font-style: italic;
+				transition: color 0.2s ease;
+			}
+			
+			html.dark .post-description {
+				color: #cccccc;
+			}
+			
+			/* 响应式设计 */
+			@media (max-width: 768px) {
+				.page-header {
+					padding: 4rem 1.5rem 3rem 1.5rem;
+				}
+				
+				.header-logo-title {
+					gap: 0.625rem;
+				}
+				
+				.header-logo {
+					height: 32px;
+					width: auto;
+				}
+				
+				.header-title {
+					font-size: 1.5rem;
+				}
+				
+				.header-subtitle {
+					font-size: 1rem;
+				}
+				
+				.post-list-container {
+					padding: 0 1.5rem 6rem 1.5rem;
+				}
+				
+				.post-title {
+					font-size: 1.75rem;
+				}
+				
+				.post-item {
+					margin-bottom: 3rem;
+				}
+			}
+			
+			@media (max-width: 480px) {
+				.header-logo {
+					height: 28px;
+				}
+				
+				.header-title {
+					font-size: 1.25rem;
+				}
+				
+				.post-title {
+					font-size: 1.5rem;
+				}
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
-		<main>
+		<!-- 页眉区域 -->
+		<header class="page-header">
+			<div class="header-logo-title">
+				<img src="/logo.png" alt="Tom Blog Logo" class="header-logo" />
+				<h1 class="header-title">{SITE_TITLE}</h1>
+			</div>
+			<p class="header-subtitle">探索科技、思维与生活的边界</p>
+		</header>
+		
+		<!-- 文章列表 -->
+		<main class="post-list-container">
 			<ul class="post-list">
 				{
 					posts.map((post) => (
 						<li class="post-item">
 							<a href={`/blog/${post.id}/`}>
-								<div class="post-date">
-									<FormattedDate date={post.data.pubDate} />
+								<div class="post-meta">
+									{formatDate(post.data.pubDate)}
 								</div>
 								<h2 class="post-title">{post.data.title}</h2>
+								<p class="post-description">{post.data.description}</p>
 							</a>
 						</li>
 					))
 				}
 			</ul>
 		</main>
+		
 		<Footer />
 	</body>
 </html>

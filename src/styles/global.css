@@ -15,18 +15,36 @@
 	--box-shadow:
 		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%), 0 16px 32px
 		rgba(var(--gray), 33%);
+	
+	/* 浅色模式变量 */
+	--bg-color: #ffffff;
+	--text-color: #000000;
+	--header-bg: #ffffff;
+	--border-color: rgba(0, 0, 0, 0.1);
+	--color-heading-text: #1f2937;
 }
+
+html.dark {
+	/* 深色模式变量 */
+	--bg-color: #1a1a1a;
+	--text-color: #ffffff;
+	--header-bg: #1a1a1a;
+	--border-color: rgba(255, 255, 255, 0.1);
+	--color-heading-text: #f9fafb;
+}
+
 body {
-	font-family: "EB Garamond", "Noto Serif SC", serif;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: #FAF9F6;
+	background: var(--bg-color);
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: #333;
-	font-size: 20px;
+	color: var(--text-color);
+	font-size: 16px;
 	line-height: 1.7;
+	transition: background-color 0.2s ease, color 0.2s ease;
 }
 main {
 	width: 680px;
@@ -41,7 +59,7 @@ h4,
 h5,
 h6 {
 	margin: 0 0 0.5rem 0;
-	color: #333;
+	color: var(--text-color);
 	line-height: 1.2;
 }
 h1 {
@@ -72,8 +90,58 @@ a:hover {
 p {
 	margin-bottom: 1em;
 }
+
+/* 文章正文排版优化 */
+.prose {
+	font-size: 1.125rem; /* 18px */
+	line-height: 1.75; /* leading-loose */
+	color: #374151; /* Gray-700 */
+}
+
+html.dark .prose {
+	color: #e5e7eb; /* 深色模式下的浅灰色，保持良好的对比度 */
+}
+
 .prose p {
-	margin-bottom: 2em;
+	margin-bottom: 1.5em; /* 段落间距 1.5em */
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+	color: var(--text-color);
+	margin-top: 1.5em;
+	margin-bottom: 0.75em;
+}
+
+.prose ul,
+.prose ol {
+	margin-bottom: 1.5em;
+}
+
+.prose li {
+	margin-bottom: 0.5em;
+}
+
+.prose a {
+	color: var(--accent);
+	text-decoration: underline;
+	text-decoration-color: rgba(35, 55, 255, 0.3);
+	text-underline-offset: 2px;
+	transition: text-decoration-color 0.2s ease;
+}
+
+.prose a:hover {
+	text-decoration-color: var(--accent);
+}
+
+.prose strong,
+.prose b {
+	font-weight: 600;
+	color: var(--text-color);
 }
 textarea {
 	width: 100%;
@@ -93,25 +161,59 @@ code {
 	padding: 2px 5px;
 	background-color: rgba(229, 233, 240, 0.5);
 }
+
+html.dark code {
+	background-color: rgba(255, 255, 255, 0.1);
+	color: #e5e7eb;
+}
+
 pre {
 	padding: 1.5em;
 }
+
+html.dark pre {
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
 pre > code {
 	all: unset;
+	background-color: transparent;
 }
+
+html.dark pre > code {
+	background-color: transparent;
+}
+
 blockquote {
 	padding: 0 0 0 20px;
 	margin: 0;
 	font-size: 1.333em;
+	border-left: 3px solid var(--border-color);
+	color: var(--text-color);
+}
+
+.prose blockquote {
+	color: #6b7280;
+	margin-bottom: 1.5em;
+}
+
+html.dark .prose blockquote {
+	color: #9ca3af;
 }
 hr {
 	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
+	border-top: 1px solid var(--border-color);
 }
+/* 移动端优化 */
 @media (max-width: 720px) {
 	body {
-		font-size: 18px;
+		font-size: 16px;
 	}
+	
+	.prose {
+		font-size: 1rem; /* 移动端稍微小一点，16px */
+	}
+	
 	main {
 		padding: 1em;
 	}

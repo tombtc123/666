@@ -12,9 +12,12 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+
+// 过滤出 h2 和 h3 标题
+const tocHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
 ---
 
-<BlogPost {...post.data}>
+<BlogPost {...post.data} headings={tocHeadings}>
 	<Content />
 </BlogPost>
