@@ -46,7 +46,7 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				position: relative;
 				display: flex;
 				align-items: center;
-				justify-content: center;
+				justify-content: space-between;
 				padding: 20px 1.5rem;
 				max-width: 100%;
 				box-sizing: border-box;
@@ -188,11 +188,11 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				
 				.blog-logo {
 					left: 1rem;
-					font-size: 0.95rem;
-					max-width: calc(100% - 140px);
-					overflow: hidden;
-					text-overflow: ellipsis;
+					font-size: 0.9rem;
 					white-space: nowrap;
+					position: relative;
+					flex-shrink: 1;
+					min-width: 0;
 				}
 				
 				.blog-nav-actions {
@@ -228,8 +228,8 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				
 				.blog-logo {
 					left: 0.75rem;
-					font-size: 0.85rem;
-					max-width: calc(100% - 120px);
+					font-size: 0.8rem;
+					white-space: nowrap;
 				}
 				
 				.blog-nav-actions {
