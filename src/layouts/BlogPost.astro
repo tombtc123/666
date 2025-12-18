@@ -154,17 +154,26 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 			@media (max-width: 768px) {
 				.blog-nav-container {
 					padding: 20px 1rem;
+					justify-content: center;
 				}
 				
 				.blog-logo {
 					left: 1rem;
-					font-size: 1.5rem;
+					font-size: 1rem;
+					max-width: calc(35% - 0.5rem);
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 				
 				.blog-home-link {
 					height: 36px;
-					padding: 0 12px;
-					font-size: 13px;
+					padding: 0 10px;
+					font-size: 12px;
+					position: absolute;
+					left: 50%;
+					transform: translateX(-50%);
+					z-index: 1;
 				}
 				
 				.blog-dark-mode-toggle {
