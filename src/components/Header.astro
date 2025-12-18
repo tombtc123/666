@@ -4,10 +4,8 @@
 <header>
 	<div class="header-container">
 		<div class="nav-icons">
-			<button class="home-link" aria-label="Back">
-				<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M15 18l-6-6 6-6"></path>
-				</svg>
+			<button class="home-link" aria-label="Back" type="button">
+				<span class="home-text">返回上一页</span>
 			</button>
 			<button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
 				<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -41,42 +39,58 @@
 	.header-container {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
+		justify-content: center;
 		padding: 1rem 1.5rem;
 		max-width: 100%;
+		position: relative;
 	}
 	
 	.nav-icons {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
+		width: 100%;
+		justify-content: center;
 	}
 	
 	.home-link {
-		width: 40px;
-		height: 40px;
-		border-radius: 50%;
-		display: flex;
+		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		height: 40px;
+		padding: 0 14px;
+		border-radius: 999px;
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		background: rgba(255, 255, 255, 0.6);
 		color: var(--text-color);
-		text-decoration: none;
-		opacity: 0.8;
-		transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+		cursor: pointer;
+		opacity: 0.9;
+		transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
 	}
 	
 	.home-link:hover {
 		background-color: rgba(0, 0, 0, 0.05);
 		opacity: 1;
-		transform: scale(1.1);
+		transform: translateY(-1px);
 	}
 	
+	html.dark .home-link {
+		border-color: rgba(255, 255, 255, 0.16);
+		background: rgba(26, 26, 26, 0.6);
+	}
+
 	html.dark .home-link:hover {
 		background-color: rgba(255, 255, 255, 0.1);
 	}
 	
 	.home-link:active {
-		transform: scale(0.95);
+		transform: translateY(0);
+	}
+
+	.home-text {
+		font-size: 14px;
+		letter-spacing: 0.2px;
+		white-space: nowrap;
 	}
 	
 	.dark-mode-toggle {
@@ -94,6 +108,8 @@
 		transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 		opacity: 0.8;
 		text-decoration: none;
+		position: absolute;
+		right: 1.5rem;
 	}
 	
 	.dark-mode-toggle:hover {
@@ -122,13 +138,14 @@
 		}
 		
 		.home-link {
-			width: 36px;
 			height: 36px;
+			padding: 0 12px;
 		}
 		
 		.dark-mode-toggle {
 			width: 36px;
 			height: 36px;
+			right: 1rem;
 		}
 		
 		.icon {
@@ -142,8 +159,17 @@
 		const toggleButton = document.getElementById('dark-mode-toggle');
 		const backButton = document.querySelector('.home-link');
 		if (backButton) {
+			const textEl = backButton.querySelector('.home-text');
+
+			const hasBack = () => window.history.length > 1;
+
+			// 初始化文案：能返回就“返回上一页”，否则“回到主页”
+			if (textEl) {
+				textEl.textContent = hasBack() ? '返回上一页' : '回到主页';
+			}
+
 			backButton.addEventListener('click', () => {
-				if (window.history.length > 1) {
+				if (hasBack()) {
 					window.history.back();
 				} else {
 					window.location.href = '/';
