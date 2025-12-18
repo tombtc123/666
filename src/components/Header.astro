@@ -4,6 +4,11 @@
 <header>
 	<div class="header-container">
 		<div class="nav-icons">
+			<button class="home-link" aria-label="Back">
+				<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M15 18l-6-6 6-6"></path>
+				</svg>
+			</button>
 			<button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
 				<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -45,6 +50,33 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
+	}
+	
+	.home-link {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--text-color);
+		text-decoration: none;
+		opacity: 0.8;
+		transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+	}
+	
+	.home-link:hover {
+		background-color: rgba(0, 0, 0, 0.05);
+		opacity: 1;
+		transform: scale(1.1);
+	}
+	
+	html.dark .home-link:hover {
+		background-color: rgba(255, 255, 255, 0.1);
+	}
+	
+	.home-link:active {
+		transform: scale(0.95);
 	}
 	
 	.dark-mode-toggle {
@@ -89,6 +121,11 @@
 			padding: 0.75rem 1rem;
 		}
 		
+		.home-link {
+			width: 36px;
+			height: 36px;
+		}
+		
 		.dark-mode-toggle {
 			width: 36px;
 			height: 36px;
@@ -103,6 +140,16 @@
 <script>
 	function initDarkMode() {
 		const toggleButton = document.getElementById('dark-mode-toggle');
+		const backButton = document.querySelector('.home-link');
+		if (backButton) {
+			backButton.addEventListener('click', () => {
+				if (window.history.length > 1) {
+					window.history.back();
+				} else {
+					window.location.href = '/';
+				}
+			});
+		}
 		const html = document.documentElement;
 		
 		// 设置主题
