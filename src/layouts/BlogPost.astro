@@ -608,11 +608,12 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 								}, 1500);
 							}
 							
-							// 更新提示文字样式
+							// 更新提示文字样式 - 显示"复制成功"
 							if (hintElement && hintElement.classList.contains('copy-hint')) {
 								hintElement.classList.add('copied-hint');
-								const originalHintText = hintElement.textContent.replace(' ✓', '');
-								hintElement.textContent = originalHintText + ' ✓';
+								const originalHintText = hintElement.textContent;
+								// 将"（点击复制）"改为"（复制成功）"
+								hintElement.textContent = originalHintText.replace('点击复制', '复制成功');
 								
 								setTimeout(() => {
 									hintElement.classList.remove('copied-hint');
@@ -645,8 +646,9 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 								
 								if (hintElement && hintElement.classList.contains('copy-hint')) {
 									hintElement.classList.add('copied-hint');
-									const originalHintText = hintElement.textContent.replace(' ✓', '');
-									hintElement.textContent = originalHintText + ' ✓';
+									const originalHintText = hintElement.textContent;
+									// 将"（点击复制）"改为"（复制成功）"
+									hintElement.textContent = originalHintText.replace('点击复制', '复制成功');
 									
 									setTimeout(() => {
 										hintElement.classList.remove('copied-hint');
@@ -752,6 +754,34 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 						top: 0,
 						behavior: 'smooth'
 					});
+				});
+				
+				// 自动为所有外部链接添加 target="_blank"
+				const currentHost = window.location.hostname;
+				const links = document.querySelectorAll('a[href]');
+				
+				links.forEach((link) => {
+					const href = link.getAttribute('href');
+					if (!href) return;
+					
+					// 跳过锚点链接和已经设置了 target 的链接
+					if (href.startsWith('#') || link.hasAttribute('target')) return;
+					
+					try {
+						const url = new URL(href, window.location.origin);
+						// 如果是外部链接（域名不同），添加 target="_blank"
+						if (url.hostname !== currentHost && url.hostname !== '') {
+							link.setAttribute('target', '_blank');
+							link.setAttribute('rel', 'noopener noreferrer');
+						}
+					} catch (e) {
+						// 如果 URL 解析失败，可能是相对路径，跳过
+						// 但如果是 http:// 或 https:// 开头的绝对路径，也添加 target="_blank"
+						if (href.startsWith('http://') || href.startsWith('https://')) {
+							link.setAttribute('target', '_blank');
+							link.setAttribute('rel', 'noopener noreferrer');
+						}
+					}
 				});
 			});
 		</script>
