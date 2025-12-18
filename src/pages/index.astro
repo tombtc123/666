@@ -139,64 +139,9 @@ const posts = (await getCollection('blog')).sort(
 				}
 			}
 			
-			/* 水印容器：固定定位，占满全屏，不挡鼠标事件 */
-			.fixed-watermark-container {
-				position: fixed !important;
-				top: 0 !important;
-				left: 0 !important;
-				width: 100vw !important;
-				height: 100vh !important;
-				pointer-events: none !important; /* 关键：让鼠标穿透 */
-				z-index: 99999 !important; /* 关键：层级最高 */
-				overflow: hidden !important;
-			}
-			
-			/* 水印公共样式 */
-			.watermark {
-				position: absolute !important;
-				font-family: sans-serif !important;
-				font-weight: bold !important;
-				color: rgba(0, 0, 0, 0.08) !important; /* 深色半透明 */
-				user-select: none !important; /* 不可选中 */
-				white-space: nowrap !important;
-			}
-			
-			/* 三个水印的具体位置和旋转 */
-			.watermark-top-right {
-				top: 15% !important;
-				right: 10% !important;
-				transform: rotate(-15deg) !important;
-				font-size: 1.2rem !important;
-			}
-			
-			.watermark-center {
-				top: 50% !important;
-				left: 50% !important;
-				transform: translate(-50%, -50%) rotate(-30deg) !important;
-				font-size: 1.5rem !important; /* 中间的稍微大一点 */
-			}
-			
-			.watermark-bottom-left {
-				bottom: 15% !important;
-				left: 10% !important;
-				transform: rotate(-15deg) !important;
-				font-size: 1.2rem !important;
-			}
-			
-			/* 深色模式适配 */
-			html.dark .watermark {
-				color: rgba(255, 255, 255, 0.08) !important;
-			}
 		</style>
 	</head>
 	<body>
-		<!-- 水印容器 -->
-		<div class="fixed-watermark-container">
-			<div class="watermark watermark-top-right">12580123.com</div>
-			<div class="watermark watermark-center">12580123.com</div>
-			<div class="watermark watermark-bottom-left">12580123.com</div>
-		</div>
-		
 		<Header />
 		
 		<!-- 文章列表 -->
