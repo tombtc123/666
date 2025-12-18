@@ -1,11 +1,18 @@
 ---
 const pathname = Astro.url?.pathname ?? '/';
 const showHomeLink = pathname !== '/' && pathname !== '/index' && pathname !== '/index.html';
+const isHome = !showHomeLink;
+const siteLabel = 'www.12580123.com';
 ---
 
 <header>
 	<div class="header-container">
 		<div class="nav-icons">
+			{isHome ? (
+				<div class="site-pill" aria-label="网站地址">
+					<span class="site-text">{siteLabel}</span>
+				</div>
+			) : null}
 			{showHomeLink ? (
 				<a href="/" class="home-link" aria-label="回到主页">
 					<span class="home-text">回到主页</span>
@@ -48,13 +55,31 @@ const showHomeLink = pathname !== '/' && pathname !== '/index' && pathname !== '
 		max-width: 100%;
 		position: relative;
 	}
-	
-	.nav-icons {
-		display: flex;
+
+	.site-pill {
+		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
-		width: 100%;
 		justify-content: center;
+		height: 40px;
+		padding: 0 16px;
+		border-radius: 999px;
+		border: 1px solid rgba(0, 0, 0, 0.06);
+		background: linear-gradient(135deg, rgba(168, 205, 255, 0.35), rgba(255, 201, 223, 0.28), rgba(196, 255, 233, 0.25));
+		color: var(--text-color);
+		opacity: 0.95;
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+	}
+
+	html.dark .site-pill {
+		border-color: rgba(255, 255, 255, 0.14);
+		background: linear-gradient(135deg, rgba(120, 170, 255, 0.22), rgba(255, 140, 190, 0.18), rgba(120, 255, 210, 0.16));
+	}
+
+	.site-text {
+		font-size: 14px;
+		letter-spacing: 0.3px;
+		white-space: nowrap;
 	}
 	
 	.home-link {
@@ -139,6 +164,11 @@ const showHomeLink = pathname !== '/' && pathname !== '/index' && pathname !== '
 	@media (max-width: 768px) {
 		.header-container {
 			padding: 0.75rem 1rem;
+		}
+		
+		.site-pill {
+			height: 36px;
+			padding: 0 14px;
 		}
 		
 		.home-link {

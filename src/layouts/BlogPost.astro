@@ -53,15 +53,6 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 					padding-right: 1rem;
 				}
 			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
 			.toc {
 				position: sticky;
 				top: 2rem;
@@ -201,10 +192,6 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				</div>
 				<div class="article-container">
 					<div class="prose">
-						<div class="title">
-							<h1>{title}</h1>
-							<hr />
-						</div>
 						<slot />
 					</div>
 					{headings.length > 0 && (
