@@ -1,25 +1,9 @@
 ---
-import { SITE_TITLE } from '../consts';
-// 检测当前是否在主页
-const isHomePage = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
 ---
 
 <header>
 	<div class="header-container">
-		{!isHomePage && (
-			<a href="/" class="brand-link" aria-label="Home">
-				<span class="brand-text">{SITE_TITLE}</span>
-			</a>
-		)}
 		<div class="nav-icons">
-			{!isHomePage && (
-				<a href="/" class="home-link" aria-label="Home">
-					<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-						<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-						<polyline points="9 22 9 12 15 12 15 22"></polyline>
-					</svg>
-				</a>
-			)}
 			<button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
 				<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -52,32 +36,17 @@ const isHomePage = Astro.url.pathname === '/' || Astro.url.pathname === '/index.
 	.header-container {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: flex-end;
 		padding: 1rem 1.5rem;
 		max-width: 100%;
-	}
-	
-	.brand-link {
-		text-decoration: none;
-		color: var(--text-color);
-		font-weight: 600;
-		font-size: 1rem;
-		display: none;
-		transition: opacity 0.2s ease;
-	}
-	
-	.brand-link:hover {
-		opacity: 0.7;
 	}
 	
 	.nav-icons {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		margin-left: auto;
 	}
 	
-	.home-link,
 	.dark-mode-toggle {
 		width: 40px;
 		height: 40px;
@@ -95,19 +64,16 @@ const isHomePage = Astro.url.pathname === '/' || Astro.url.pathname === '/index.
 		text-decoration: none;
 	}
 	
-	.home-link:hover,
 	.dark-mode-toggle:hover {
 		background-color: rgba(0, 0, 0, 0.05);
 		opacity: 1;
 		transform: scale(1.1);
 	}
 	
-	html.dark .home-link:hover,
 	html.dark .dark-mode-toggle:hover {
 		background-color: rgba(255, 255, 255, 0.1);
 	}
 	
-	.home-link:active,
 	.dark-mode-toggle:active {
 		transform: scale(0.95);
 	}
@@ -123,11 +89,6 @@ const isHomePage = Astro.url.pathname === '/' || Astro.url.pathname === '/index.
 			padding: 0.75rem 1rem;
 		}
 		
-		.brand-link {
-			display: block;
-		}
-		
-		.home-link,
 		.dark-mode-toggle {
 			width: 36px;
 			height: 36px;
