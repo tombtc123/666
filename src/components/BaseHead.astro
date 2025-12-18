@@ -16,9 +16,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, image } = Astro.props;
 
 // 确定使用的图片 URL
-// 如果有传入的图片，使用它；否则使用 Logo 作为默认
-const defaultImageUrl = '/logo.png';
-let ogImageUrl: string;
+// 如果有传入的图片，使用它；否则不设置默认图片
+let ogImageUrl: string | undefined;
 
 if (image) {
 	// 如果传入的是 ImageMetadata，使用其 src 属性；如果是字符串，直接使用
@@ -30,12 +29,12 @@ if (image) {
 		const url = new URL(imagePath, Astro.site);
 		ogImageUrl = url.href;
 	} catch {
-		// 如果构建失败，使用默认 Logo
-		ogImageUrl = new URL(defaultImageUrl, Astro.site).href;
+		// 如果构建失败，不设置图片
+		ogImageUrl = undefined;
 	}
 } else {
-	// 使用默认 Logo
-	ogImageUrl = new URL(defaultImageUrl, Astro.site).href;
+	// 不设置默认图片
+	ogImageUrl = undefined;
 }
 ---
 
@@ -85,11 +84,11 @@ if (image) {
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={ogImageUrl} />
+{ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={ogImageUrl} />
+{ogImageUrl && <meta property="twitter:image" content={ogImageUrl} />}

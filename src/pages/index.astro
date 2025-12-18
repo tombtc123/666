@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
@@ -9,13 +10,6 @@ const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-// 格式化日期为中文格式：2025年12月17日
-function formatDate(date: Date): string {
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1;
-	const day = date.getDate();
-	return `${year}年${month}月${day}日`;
-}
 ---
 
 <!doctype html>
@@ -64,27 +58,20 @@ function formatDate(date: Date): string {
 				box-sizing: border-box;
 			}
 			
-			/* 第一行：元数据 */
-			.post-meta {
-				font-size: 0.875rem;
-				color: #999999;
-				margin-bottom: 0.75rem;
-				letter-spacing: 0.01em;
-				transition: color 0.2s ease;
-				/* 强制换行修复 */
-				min-width: 0 !important;
-				white-space: normal !important;
-				word-wrap: break-word !important;
-				overflow-wrap: anywhere !important;
-				max-width: 100% !important;
-				box-sizing: border-box;
+			/* 封面图 */
+			.post-hero-image {
+				width: 100%;
+				margin-bottom: 1rem;
 			}
 			
-			html.dark .post-meta {
-				color: #888888;
+			.post-hero-image img {
+				display: block;
+				width: 100%;
+				height: auto;
+				object-fit: cover;
 			}
 			
-			/* 第二行：大标题 */
+			/* 文章标题 */
 			.post-title {
 				font-size: 2.25rem;
 				font-weight: 700;
@@ -109,30 +96,6 @@ function formatDate(date: Date): string {
 				color: #4f46e5;
 			}
 			
-			/* 第三行：副标题/描述 */
-			.post-description {
-				font-size: 1rem;
-				color: #666666;
-				margin: 0 0 0.5rem 0;
-				line-height: 1.6;
-				font-style: italic;
-				transition: color 0.2s ease;
-				/* 强制换行修复 - 核心修复方案 */
-				min-width: 0 !important;
-				white-space: normal !important;
-				word-wrap: break-word !important;
-				word-break: break-word !important;
-				overflow-wrap: anywhere !important;
-				max-width: 100% !important;
-				box-sizing: border-box;
-				/* 确保不会被其他样式覆盖 */
-				display: block;
-			}
-			
-			html.dark .post-description {
-				color: #cccccc;
-			}
-			
 			/* 响应式设计 */
 			@media (max-width: 768px) {
 				.post-list-container {
@@ -148,26 +111,6 @@ function formatDate(date: Date): string {
 				
 				.post-title {
 					font-size: 1.5rem;
-					/* 移动端再次强化换行 */
-					min-width: 0 !important;
-					white-space: normal !important;
-					word-wrap: break-word !important;
-					overflow-wrap: anywhere !important;
-					max-width: 100% !important;
-				}
-				
-				.post-description {
-					line-height: 1.5;
-					/* 移动端再次强化换行 */
-					min-width: 0 !important;
-					white-space: normal !important;
-					word-wrap: break-word !important;
-					word-break: break-word !important;
-					overflow-wrap: anywhere !important;
-					max-width: 100% !important;
-				}
-				
-				.post-meta {
 					/* 移动端再次强化换行 */
 					min-width: 0 !important;
 					white-space: normal !important;
@@ -211,13 +154,10 @@ function formatDate(date: Date): string {
 				}
 				
 				/* 2. 强制文字换行，不许抵抗 */
-				.post-meta,
 				.post-title,
-				.post-description,
 				.post-item p,
 				.post-item h2,
-				.post-item h4,
-				.post-item .date {
+				.post-item h4 {
 					white-space: normal !important;
 					overflow-wrap: anywhere !important; /* 最强换行逻辑 */
 					word-break: break-word !important;
@@ -254,11 +194,12 @@ function formatDate(date: Date): string {
 					posts.map((post) => (
 						<li class="post-item">
 							<a href={`/blog/${post.id}/`}>
-								<div class="post-meta">
-									{formatDate(post.data.pubDate)}
-								</div>
+								{post.data.heroImage && (
+									<div class="post-hero-image">
+										<Image width={800} height={400} src={post.data.heroImage} alt="" />
+									</div>
+								)}
 								<h2 class="post-title">{post.data.title}</h2>
-								<p class="post-description">{post.data.description}</p>
 							</a>
 						</li>
 					))
