@@ -16,11 +16,21 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 	<head>
 		<BaseHead title={title} description={description} image={heroImage} />
 		<style>
+			html,
+			body {
+				max-width: 100%;
+				overflow-x: hidden;
+				position: relative;
+				width: 100%;
+			}
+			
 			main {
 				width: calc(100% - 2em);
 				max-width: 100%;
 				margin: 0;
 				padding-top: 0;
+				box-sizing: border-box;
+				overflow-x: hidden;
 			}
 			.hero-image {
 				width: 100%;
@@ -37,6 +47,9 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				margin: 0 auto;
 				gap: 2rem;
 				align-items: flex-start;
+				width: 100%;
+				box-sizing: border-box;
+				overflow-x: hidden;
 			}
 			.prose {
 				flex: 1;
@@ -117,6 +130,9 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				.article-container {
 					flex-direction: column;
 					padding: 0 1rem;
+					width: 100%;
+					box-sizing: border-box;
+					overflow-x: hidden;
 				}
 				.prose {
 					width: 100%;
@@ -180,10 +196,161 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 					height: 20px;
 				}
 			}
+			
+			/* 水印容器：固定定位，占满全屏，不挡鼠标事件 */
+			.fixed-watermark-container {
+				position: fixed !important;
+				top: 0 !important;
+				left: 0 !important;
+				width: 100vw !important;
+				height: 100vh !important;
+				pointer-events: none !important; /* 关键：让鼠标穿透 */
+				z-index: 99999 !important; /* 关键：层级最高 */
+				overflow: hidden !important;
+			}
+			
+			/* 水印公共样式 */
+			.watermark {
+				position: absolute !important;
+				font-family: sans-serif !important;
+				font-weight: bold !important;
+				color: rgba(0, 0, 0, 0.08) !important; /* 深色半透明 */
+				user-select: none !important; /* 不可选中 */
+				white-space: nowrap !important;
+			}
+			
+			/* 三个水印的具体位置和旋转 */
+			.watermark-top-right {
+				top: 15% !important;
+				right: 10% !important;
+				transform: rotate(-15deg) !important;
+				font-size: 1.2rem !important;
+			}
+			
+			.watermark-center {
+				top: 50% !important;
+				left: 50% !important;
+				transform: translate(-50%, -50%) rotate(-30deg) !important;
+				font-size: 1.5rem !important; /* 中间的稍微大一点 */
+			}
+			
+			.watermark-bottom-left {
+				bottom: 15% !important;
+				left: 10% !important;
+				transform: rotate(-15deg) !important;
+				font-size: 1.2rem !important;
+			}
+			
+			/* 深色模式适配 */
+			html.dark .watermark {
+				color: rgba(255, 255, 255, 0.08) !important;
+			}
+			
+			/* 内联复制代码样式 */
+			.copy-code-inline {
+				display: inline-block;
+				background-color: #f3f4f6;
+				padding: 4px 8px;
+				border-radius: 4px;
+				font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Courier New', monospace;
+				font-weight: 600;
+				font-size: 0.9em;
+				color: #1f2937;
+				cursor: pointer;
+				user-select: all;
+				-webkit-user-select: all;
+				transition: background-color 0.2s ease, color 0.2s ease;
+				position: relative;
+			}
+			
+			.copy-code-inline:hover {
+				background-color: #e5e7eb;
+			}
+			
+			html.dark .copy-code-inline {
+				background-color: rgba(255, 255, 255, 0.1);
+				color: #e5e7eb;
+			}
+			
+			html.dark .copy-code-inline:hover {
+				background-color: rgba(255, 255, 255, 0.15);
+			}
+			
+			.copy-code-inline.copied {
+				background-color: rgba(16, 185, 129, 0.15);
+				color: #10b981;
+			}
+			
+			html.dark .copy-code-inline.copied {
+				background-color: rgba(52, 211, 153, 0.2);
+				color: #34d399;
+			}
+			
+			/* 复制提示文字 */
+			.copy-hint {
+				font-size: 0.85em;
+				color: #6b7280;
+				margin-left: 6px;
+				font-style: italic;
+				cursor: pointer;
+				transition: color 0.2s ease;
+			}
+			
+			.copy-hint:hover {
+				color: #374151;
+			}
+			
+			html.dark .copy-hint {
+				color: #9ca3af;
+			}
+			
+			html.dark .copy-hint:hover {
+				color: #d1d5db;
+			}
+			
+			.copy-hint.copied-hint {
+				color: #10b981;
+			}
+			
+			html.dark .copy-hint.copied-hint {
+				color: #34d399;
+			}
+			
+			/* 外部链接样式 */
+			.external-link {
+				color: #2563eb;
+				text-decoration: underline;
+				text-decoration-color: rgba(37, 99, 235, 0.3);
+				text-underline-offset: 2px;
+				transition: text-decoration-color 0.2s ease, color 0.2s ease;
+				cursor: pointer;
+			}
+			
+			.external-link:hover {
+				color: #1d4ed8;
+				text-decoration-color: #2563eb;
+			}
+			
+			html.dark .external-link {
+				color: #60a5fa;
+				text-decoration-color: rgba(96, 165, 250, 0.3);
+			}
+			
+			html.dark .external-link:hover {
+				color: #93c5fd;
+				text-decoration-color: #60a5fa;
+			}
 		</style>
 	</head>
 
 	<body>
+		<!-- 水印容器 -->
+		<div class="fixed-watermark-container">
+			<div class="watermark watermark-top-right">12580123.com</div>
+			<div class="watermark watermark-center">12580123.com</div>
+			<div class="watermark watermark-bottom-left">12580123.com</div>
+		</div>
+		
 		<Header />
 		<main>
 			<article>
@@ -234,6 +401,91 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 
 			// 为标题添加 ID（如果还没有）
 			document.addEventListener('DOMContentLoaded', () => {
+				// 内联复制代码功能
+				const copyCodeElements = document.querySelectorAll('.copy-code-inline, .copy-hint');
+				copyCodeElements.forEach((element) => {
+					element.addEventListener('click', async () => {
+						const code = element.getAttribute('data-code');
+						if (!code) return;
+						
+						// 找到对应的推荐码元素和提示元素
+						const codeElement = element.classList.contains('copy-code-inline') 
+							? element 
+							: element.previousElementSibling;
+						const hintElement = element.classList.contains('copy-hint')
+							? element
+							: element.nextElementSibling;
+						
+						try {
+							await navigator.clipboard.writeText(code);
+							
+							// 更新推荐码样式
+							if (codeElement && codeElement.classList.contains('copy-code-inline')) {
+								codeElement.classList.add('copied');
+								const originalCodeText = codeElement.textContent.replace(' ✓', '');
+								codeElement.textContent = originalCodeText + ' ✓';
+								
+								// 1.5秒后恢复
+								setTimeout(() => {
+									codeElement.classList.remove('copied');
+									codeElement.textContent = originalCodeText;
+								}, 1500);
+							}
+							
+							// 更新提示文字样式
+							if (hintElement && hintElement.classList.contains('copy-hint')) {
+								hintElement.classList.add('copied-hint');
+								const originalHintText = hintElement.textContent.replace(' ✓', '');
+								hintElement.textContent = originalHintText + ' ✓';
+								
+								setTimeout(() => {
+									hintElement.classList.remove('copied-hint');
+									hintElement.textContent = originalHintText;
+								}, 1500);
+							}
+						} catch (err) {
+							console.error('复制失败:', err);
+							// 降级方案
+							const textArea = document.createElement('textarea');
+							textArea.value = code;
+							textArea.style.position = 'fixed';
+							textArea.style.opacity = '0';
+							document.body.appendChild(textArea);
+							textArea.select();
+							
+							try {
+								document.execCommand('copy');
+								
+								if (codeElement && codeElement.classList.contains('copy-code-inline')) {
+									codeElement.classList.add('copied');
+									const originalCodeText = codeElement.textContent.replace(' ✓', '');
+									codeElement.textContent = originalCodeText + ' ✓';
+									
+									setTimeout(() => {
+										codeElement.classList.remove('copied');
+										codeElement.textContent = originalCodeText;
+									}, 1500);
+								}
+								
+								if (hintElement && hintElement.classList.contains('copy-hint')) {
+									hintElement.classList.add('copied-hint');
+									const originalHintText = hintElement.textContent.replace(' ✓', '');
+									hintElement.textContent = originalHintText + ' ✓';
+									
+									setTimeout(() => {
+										hintElement.classList.remove('copied-hint');
+										hintElement.textContent = originalHintText;
+									}, 1500);
+								}
+							} catch (fallbackErr) {
+								console.error('降级复制也失败:', fallbackErr);
+							}
+							
+							document.body.removeChild(textArea);
+						}
+					});
+				});
+				
 				const headings = document.querySelectorAll('.prose h2, .prose h3');
 				headings.forEach((heading) => {
 					if (!heading.id) {

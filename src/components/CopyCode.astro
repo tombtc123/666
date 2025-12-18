@@ -1,0 +1,168 @@
+---
+interface Props {
+	code: string;
+}
+
+const { code } = Astro.props;
+---
+
+<div class="copy-code-container" data-code={code}>
+	<code class="copy-code-text">{code}</code>
+	<button class="copy-code-button" type="button" aria-label="复制代码">
+		<span class="copy-code-button-text">复制</span>
+	</button>
+</div>
+
+<style>
+	.copy-code-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		background-color: #f3f4f6;
+		border-radius: 6px;
+		padding: 12px 16px;
+		gap: 12px;
+		font-family: system-ui, -apple-system, sans-serif;
+	}
+	
+	html.dark .copy-code-container {
+		background-color: rgba(255, 255, 255, 0.05);
+	}
+	
+	.copy-code-text {
+		font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Courier New', monospace;
+		font-weight: 600;
+		font-size: 0.875rem;
+		color: var(--text-color);
+		flex: 1;
+		word-break: break-all;
+		user-select: all;
+		-webkit-user-select: all;
+	}
+	
+	.copy-code-button {
+		flex-shrink: 0;
+		border: none;
+		background: transparent;
+		color: #6b7280;
+		font-size: 0.875rem;
+		font-weight: 500;
+		cursor: pointer;
+		padding: 4px 8px;
+		border-radius: 4px;
+		transition: background-color 0.2s ease, color 0.2s ease;
+		white-space: nowrap;
+	}
+	
+	.copy-code-button:hover {
+		background-color: rgba(0, 0, 0, 0.05);
+		color: #374151;
+	}
+	
+	html.dark .copy-code-button {
+		color: #9ca3af;
+	}
+	
+	html.dark .copy-code-button:hover {
+		background-color: rgba(255, 255, 255, 0.1);
+		color: #e5e7eb;
+	}
+	
+	.copy-code-button.copied {
+		color: #10b981;
+		background-color: rgba(16, 185, 129, 0.1);
+	}
+	
+	html.dark .copy-code-button.copied {
+		color: #34d399;
+		background-color: rgba(52, 211, 153, 0.15);
+	}
+	
+	.copy-code-button-text::after {
+		content: '';
+	}
+	
+	.copy-code-button.copied .copy-code-button-text::after {
+		content: ' ✓';
+	}
+	
+	@media (max-width: 768px) {
+		.copy-code-container {
+			padding: 10px 12px;
+			gap: 8px;
+		}
+		
+		.copy-code-text {
+			font-size: 0.8125rem;
+		}
+		
+		.copy-code-button {
+			font-size: 0.8125rem;
+			padding: 4px 6px;
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const containers = document.querySelectorAll('.copy-code-container');
+		
+		containers.forEach((container) => {
+			const button = container.querySelector('.copy-code-button');
+			const code = container.getAttribute('data-code');
+			
+			if (!button || !code) return;
+			
+			button.addEventListener('click', async () => {
+				try {
+					await navigator.clipboard.writeText(code);
+					
+					// 更新按钮状态
+					button.classList.add('copied');
+					const buttonText = button.querySelector('.copy-code-button-text');
+					if (buttonText) {
+						buttonText.textContent = '已复制';
+					}
+					
+					// 1.5秒后恢复
+					setTimeout(() => {
+						button.classList.remove('copied');
+						if (buttonText) {
+							buttonText.textContent = '复制';
+						}
+					}, 1500);
+				} catch (err) {
+					console.error('复制失败:', err);
+					// 降级方案：使用传统方法
+					const textArea = document.createElement('textarea');
+					textArea.value = code;
+					textArea.style.position = 'fixed';
+					textArea.style.opacity = '0';
+					document.body.appendChild(textArea);
+					textArea.select();
+					
+					try {
+						document.execCommand('copy');
+						button.classList.add('copied');
+						const buttonText = button.querySelector('.copy-code-button-text');
+						if (buttonText) {
+							buttonText.textContent = '已复制';
+						}
+						
+						setTimeout(() => {
+							button.classList.remove('copied');
+							if (buttonText) {
+								buttonText.textContent = '复制';
+							}
+						}, 1500);
+					} catch (fallbackErr) {
+						console.error('降级复制也失败:', fallbackErr);
+					}
+					
+					document.body.removeChild(textArea);
+				}
+			});
+		});
+	});
+</script>
+

@@ -33,6 +33,15 @@ html.dark {
 	--color-heading-text: #f9fafb;
 }
 
+/* 全局锁死横向滑动 */
+html,
+body {
+	max-width: 100%;
+	overflow-x: hidden;
+	position: relative;
+	width: 100%;
+}
+
 body {
 	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 	margin: 0;
