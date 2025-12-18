@@ -1,12 +1,16 @@
 ---
+const pathname = Astro.url?.pathname ?? '/';
+const showHomeLink = pathname !== '/' && pathname !== '/index' && pathname !== '/index.html';
 ---
 
 <header>
 	<div class="header-container">
 		<div class="nav-icons">
-			<button class="home-link" aria-label="Back" type="button">
-				<span class="home-text">返回上一页</span>
-			</button>
+			{showHomeLink ? (
+				<a href="/" class="home-link" aria-label="回到主页">
+					<span class="home-text">回到主页</span>
+				</a>
+			) : null}
 			<button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
 				<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -63,9 +67,9 @@
 		border: 1px solid rgba(0, 0, 0, 0.08);
 		background: rgba(255, 255, 255, 0.6);
 		color: var(--text-color);
-		cursor: pointer;
 		opacity: 0.9;
 		transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+		text-decoration: none;
 	}
 	
 	.home-link:hover {
@@ -157,25 +161,6 @@
 <script>
 	function initDarkMode() {
 		const toggleButton = document.getElementById('dark-mode-toggle');
-		const backButton = document.querySelector('.home-link');
-		if (backButton) {
-			const textEl = backButton.querySelector('.home-text');
-
-			const hasBack = () => window.history.length > 1;
-
-			// 初始化文案：能返回就“返回上一页”，否则“回到主页”
-			if (textEl) {
-				textEl.textContent = hasBack() ? '返回上一页' : '回到主页';
-			}
-
-			backButton.addEventListener('click', () => {
-				if (hasBack()) {
-					window.history.back();
-				} else {
-					window.location.href = '/';
-				}
-			});
-		}
 		const html = document.documentElement;
 		
 		// 设置主题
