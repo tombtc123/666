@@ -10,7 +10,11 @@ const siteLabel = '12580123.com';
 		<div class="nav-icons">
 			{isHome ? (
 				<div class="site-pill" aria-label="网站地址">
-					<span class="site-text">{siteLabel}</span>
+					<span class="site-text">
+						<span class="logo-part-12580">12580</span>
+						<span class="logo-part-123">123</span>
+						<span class="logo-part-com">.com</span>
+					</span>
 				</div>
 			) : null}
 			{showHomeLink ? (
@@ -80,7 +84,29 @@ const siteLabel = '12580123.com';
 		font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 		letter-spacing: -0.02em;
 		white-space: nowrap;
-		background: linear-gradient(135deg, #2563eb, #9333ea);
+	}
+	
+	/* 12580 部分 - 蓝色渐变 */
+	.logo-part-12580 {
+		background: linear-gradient(135deg, #2563eb, #3b82f6);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+		color: transparent;
+	}
+	
+	/* 123 部分 - 紫色渐变 */
+	.logo-part-123 {
+		background: linear-gradient(135deg, #9333ea, #a855f7);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+		color: transparent;
+	}
+	
+	/* .com 部分 - 使用 123 的颜色 */
+	.logo-part-com {
+		background: linear-gradient(135deg, #9333ea, #a855f7);
 		-webkit-background-clip: text;
 		background-clip: text;
 		-webkit-text-fill-color: transparent;

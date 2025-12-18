@@ -61,17 +61,39 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 				letter-spacing: -0.02em;
 				white-space: nowrap;
-				background: linear-gradient(135deg, #2563eb, #9333ea);
-				-webkit-background-clip: text;
-				background-clip: text;
-				-webkit-text-fill-color: transparent;
-				color: transparent;
 				text-decoration: none;
 				transition: opacity 0.2s ease;
 			}
 			
 			.blog-logo:hover {
 				opacity: 0.8;
+			}
+			
+			/* 12580 部分 - 蓝色渐变 */
+			.logo-part-12580 {
+				background: linear-gradient(135deg, #2563eb, #3b82f6);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+				color: transparent;
+			}
+			
+			/* 123 部分 - 紫色渐变 */
+			.logo-part-123 {
+				background: linear-gradient(135deg, #9333ea, #a855f7);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+				color: transparent;
+			}
+			
+			/* .com 部分 - 使用 123 的颜色 */
+			.logo-part-com {
+				background: linear-gradient(135deg, #9333ea, #a855f7);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+				color: transparent;
 			}
 			
 			/* 中间"回到主页"按钮 */
@@ -462,7 +484,11 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 		<!-- 固定导航栏 -->
 		<nav class="blog-nav-bar">
 			<div class="blog-nav-container">
-				<a href="/" class="blog-logo">12580123.com</a>
+				<a href="/" class="blog-logo">
+					<span class="logo-part-12580">12580</span>
+					<span class="logo-part-123">123</span>
+					<span class="logo-part-com">.com</span>
+				</a>
 				<a href="/" class="blog-home-link">回到主页</a>
 				<button id="blog-dark-mode-toggle" class="blog-dark-mode-toggle" aria-label="Toggle dark mode">
 					<svg class="blog-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
