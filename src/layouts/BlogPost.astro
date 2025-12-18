@@ -52,7 +52,12 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				box-sizing: border-box;
 			}
 			
-			/* 左侧 Logo */
+			/* 左侧"回到主页"按钮（桌面端隐藏） */
+			.blog-home-link-left {
+				display: none;
+			}
+			
+			/* Logo - 桌面端在左侧，移动端居中 */
 			.blog-logo {
 				position: absolute;
 				left: 1.5rem;
@@ -96,16 +101,7 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				color: transparent;
 			}
 			
-			/* 右侧操作按钮组 */
-			.blog-nav-actions {
-				position: absolute;
-				right: 1.5rem;
-				display: flex;
-				align-items: center;
-				gap: 0.75rem;
-			}
-			
-			/* "回到主页"按钮 */
+			/* "回到主页"按钮（桌面端在右侧） */
 			.blog-home-link {
 				display: inline-flex;
 				align-items: center;
@@ -122,6 +118,15 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				font-size: 13px;
 				letter-spacing: 0.2px;
 				white-space: nowrap;
+			}
+			
+			/* 桌面端：右侧按钮组 */
+			.blog-nav-actions {
+				position: absolute;
+				right: 1.5rem;
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
 			}
 			
 			.blog-home-link:hover {
@@ -143,7 +148,7 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				transform: translateY(0);
 			}
 			
-			/* 暗黑模式切换按钮 */
+			/* 暗黑模式切换按钮（桌面端） */
 			.blog-dark-mode-toggle {
 				width: 36px;
 				height: 36px;
@@ -158,6 +163,11 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 				justify-content: center;
 				transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 				opacity: 0.8;
+			}
+			
+			/* 移动端暗黑模式按钮（默认隐藏） */
+			.blog-dark-mode-toggle-mobile {
+				display: none;
 			}
 			
 			.blog-dark-mode-toggle:hover {
@@ -186,32 +196,56 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 					justify-content: space-between;
 				}
 				
-				.blog-logo {
+				/* 移动端：左侧显示"回到主页"按钮 */
+				.blog-home-link-left {
+					display: inline-flex;
+					position: absolute;
 					left: 1rem;
-					font-size: 0.9rem;
-					white-space: nowrap;
-					position: relative;
-					flex-shrink: 1;
-					min-width: 0;
-				}
-				
-				.blog-nav-actions {
-					right: 1rem;
-					gap: 0.5rem;
-					flex-shrink: 0;
-				}
-				
-				.blog-home-link {
 					height: 32px;
 					padding: 0 10px;
 					font-size: 11px;
 					line-height: 1;
 				}
 				
-				.blog-dark-mode-toggle {
+				/* 移动端：Logo 居中 */
+				.blog-logo {
+					left: 50%;
+					transform: translateX(-50%);
+					font-size: 0.9rem;
+					white-space: nowrap;
+				}
+				
+				/* 移动端：显示移动端暗黑模式按钮，隐藏桌面端按钮组 */
+				.blog-nav-actions {
+					display: none;
+				}
+				
+				.blog-dark-mode-toggle-mobile {
+					display: flex;
+					position: absolute;
+					right: 1rem;
 					width: 32px;
 					height: 32px;
-					flex-shrink: 0;
+					padding: 0;
+					border: none;
+					background: transparent;
+					cursor: pointer;
+					border-radius: 50%;
+					color: var(--text-color);
+					align-items: center;
+					justify-content: center;
+					transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+					opacity: 0.8;
+				}
+				
+				.blog-dark-mode-toggle-mobile:hover {
+					background-color: rgba(0, 0, 0, 0.05);
+					opacity: 1;
+					transform: scale(1.1);
+				}
+				
+				html.dark .blog-dark-mode-toggle-mobile:hover {
+					background-color: rgba(255, 255, 255, 0.1);
 				}
 				
 				.blog-icon {
@@ -226,24 +260,19 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 					padding: 16px 0.75rem;
 				}
 				
-				.blog-logo {
+				.blog-home-link-left {
 					left: 0.75rem;
-					font-size: 0.8rem;
-					white-space: nowrap;
-				}
-				
-				.blog-nav-actions {
-					right: 0.75rem;
-					gap: 0.4rem;
-				}
-				
-				.blog-home-link {
 					height: 30px;
 					padding: 0 8px;
 					font-size: 10px;
 				}
 				
-				.blog-dark-mode-toggle {
+				.blog-logo {
+					font-size: 0.8rem;
+				}
+				
+				.blog-dark-mode-toggle-mobile {
+					right: 0.75rem;
 					width: 30px;
 					height: 30px;
 				}
@@ -528,11 +557,9 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 		<!-- 固定导航栏 -->
 		<nav class="blog-nav-bar">
 			<div class="blog-nav-container">
-				<a href="/" class="blog-logo">
-					<span class="logo-part-12580">12580</span>
-					<span class="logo-part-123">123</span>
-					<span class="logo-part-com">.com</span>
-				</a>
+				<!-- 移动端：左侧"回到主页"按钮 -->
+				<a href="/" class="blog-home-link blog-home-link-left">回到主页</a>
+				<!-- 桌面端：右侧按钮组 -->
 				<div class="blog-nav-actions">
 					<a href="/" class="blog-home-link">回到主页</a>
 					<button id="blog-dark-mode-toggle" class="blog-dark-mode-toggle" aria-label="Toggle dark mode">
@@ -541,6 +568,18 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 						</svg>
 					</button>
 				</div>
+				<!-- Logo -->
+				<a href="/" class="blog-logo">
+					<span class="logo-part-12580">12580</span>
+					<span class="logo-part-123">123</span>
+					<span class="logo-part-com">.com</span>
+				</a>
+				<!-- 移动端：右侧暗黑模式按钮 -->
+				<button id="blog-dark-mode-toggle-mobile" class="blog-dark-mode-toggle-mobile" aria-label="Toggle dark mode">
+					<svg class="blog-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+					</svg>
+				</button>
 			</div>
 		</nav>
 		
@@ -584,6 +623,7 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 			// 暗黑模式切换功能
 			function initBlogDarkMode() {
 				const toggleButton = document.getElementById('blog-dark-mode-toggle');
+				const toggleButtonMobile = document.getElementById('blog-dark-mode-toggle-mobile');
 				const html = document.documentElement;
 				
 				// 设置主题
@@ -611,9 +651,12 @@ const { title, description, heroImage, headings = [] } = Astro.props;
 					setTheme(isDark ? 'light' : 'dark');
 				}
 				
-				// 绑定点击事件
+				// 绑定点击事件（桌面端和移动端）
 				if (toggleButton) {
 					toggleButton.addEventListener('click', toggleTheme);
+				}
+				if (toggleButtonMobile) {
+					toggleButtonMobile.addEventListener('click', toggleTheme);
 				}
 				
 				// 监听系统主题变化（仅当用户没有手动设置主题时）
