@@ -44,7 +44,7 @@ https://appleid.apple.com/account
 
 填写示例：
 
-姓名：Tom A  
+姓名：Lucy A  
 国家或地区：中国大陆  
 出生日期：1990 年 1 月 1 日（需年满 18 岁）  
 邮箱：新注册的 Gmail 邮箱  

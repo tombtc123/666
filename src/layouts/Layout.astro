@@ -17,11 +17,72 @@ const { title, description = '' } = Astro.props;
 		<BaseHead title={title} description={description} />
 	</head>
 	<body>
+		<!-- 水印容器 -->
+		<div class="watermark-container">
+			<div class="watermark watermark-1">12580123.com</div>
+			<div class="watermark watermark-2">12580123.com</div>
+			<div class="watermark watermark-3">12580123.com</div>
+		</div>
+		
 		<Header />
 		<main>
 			<slot />
 		</main>
 		<Footer />
 	</body>
+	<style>
+		/* 水印通用样式 */
+		.watermark {
+			position: fixed;
+			z-index: 9999;
+			pointer-events: none;
+			color: #000000;
+			font-weight: bold;
+			opacity: 0.08;
+			user-select: none;
+			-webkit-user-select: none;
+		}
+		
+		/* 水印1：右上角 */
+		.watermark-1 {
+			top: 10%;
+			right: 5%;
+			transform: rotate(-15deg);
+			font-size: 1.5rem;
+		}
+		
+		/* 水印2：正中间 */
+		.watermark-2 {
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%) rotate(-45deg);
+			font-size: 2rem;
+		}
+		
+		/* 水印3：左下角 */
+		.watermark-3 {
+			bottom: 10%;
+			left: 5%;
+			transform: rotate(-15deg);
+			font-size: 1.5rem;
+		}
+		
+		/* 深色模式适配 */
+		html.dark .watermark {
+			color: #ffffff;
+		}
+		
+		/* 移动端适配 */
+		@media (max-width: 768px) {
+			.watermark-1,
+			.watermark-3 {
+				font-size: 1.2rem;
+			}
+			
+			.watermark-2 {
+				font-size: 1.5rem;
+			}
+		}
+	</style>
 </html>
 

@@ -93,9 +93,9 @@ p {
 
 /* 文章正文排版优化 */
 .prose {
-	font-size: 1.125rem; /* 18px */
-	line-height: 1.75; /* leading-loose */
-	color: #374151; /* Gray-700 */
+	font-size: 1rem; /* 16px，适合长时间阅读 */
+	line-height: 1.7; /* 宽松的行高，阅读不累 */
+	color: #333333; /* 深灰色，更柔和护眼 */
 }
 
 html.dark .prose {
@@ -103,15 +103,46 @@ html.dark .prose {
 }
 
 .prose p {
-	margin-bottom: 1.5em; /* 段落间距 1.5em */
+	margin-bottom: 1.5em; /* 段落间距 1.5em，让段落分明 */
 }
 
-.prose h1,
-.prose h2,
-.prose h3,
+/* H1 文章大标题 */
+.prose h1 {
+	font-size: 1.8rem;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--text-color);
+	margin-top: 0;
+	margin-bottom: 1em;
+}
+
+/* H2 二级标题（如"Step 1..."） */
+.prose h2 {
+	font-size: 1.4rem;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--text-color);
+	margin-top: 2em; /* 增加上方间距，让段落分明 */
+	margin-bottom: 0.75em;
+}
+
+/* H3 三级标题 */
+.prose h3 {
+	font-size: 1.2rem;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--text-color);
+	margin-top: 1.5em;
+	margin-bottom: 0.75em;
+}
+
+/* H4, H5, H6 保持较小字号 */
 .prose h4,
 .prose h5,
 .prose h6 {
+	font-size: 1.1rem;
+	font-weight: 600;
+	line-height: 1.3;
 	color: var(--text-color);
 	margin-top: 1.5em;
 	margin-bottom: 0.75em;
@@ -211,7 +242,22 @@ hr {
 	}
 	
 	.prose {
-		font-size: 1rem; /* 移动端稍微小一点，16px */
+		font-size: 1rem; /* 移动端保持 16px */
+		line-height: 1.7; /* 保持宽松行高 */
+	}
+	
+	/* 移动端标题调整 */
+	.prose h1 {
+		font-size: 1.6rem;
+	}
+	
+	.prose h2 {
+		font-size: 1.3rem;
+		margin-top: 1.8em;
+	}
+	
+	.prose h3 {
+		font-size: 1.15rem;
 	}
 	
 	main {
