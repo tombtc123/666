@@ -447,7 +447,225 @@ const { title, description, headings = [] } = Astro.props;
 				}
 			}
 			
-			/* 内联复制代码样式 */
+			/* 推荐码行容器 - 确保文字和推荐码在同一行 */
+			.referral-code-line {
+				display: inline-flex;
+				align-items: center;
+				flex-wrap: nowrap;
+				gap: 0;
+				white-space: nowrap;
+			}
+			
+			/* 推荐码容器样式 - 输入框+按钮样式 */
+			.copy-code-wrapper {
+				display: inline-flex;
+				align-items: center;
+				background-color: transparent;
+				border-radius: 6px;
+				overflow: visible;
+				margin-left: 8px;
+				vertical-align: middle;
+				white-space: nowrap;
+				gap: 24px !important;
+			}
+			
+			html.dark .copy-code-wrapper {
+				background-color: rgba(255, 255, 255, 0.05);
+			}
+			
+			/* 代码显示区域 - 类似输入框 */
+			.copy-code-display {
+				display: inline-block;
+				padding: 8px 0;
+				padding-right: 0;
+				margin-right: 0;
+				font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Courier New', monospace;
+				font-weight: 600;
+				font-size: 0.95em;
+				color: #1f2937;
+				background-color: transparent;
+				border: none;
+				outline: none;
+				user-select: all;
+				-webkit-user-select: all;
+				flex: 1;
+			}
+			
+			html.dark .copy-code-display {
+				color: #e5e7eb;
+			}
+			
+			/* 复制按钮 - Modern Pill Style */
+			.copy-code-btn {
+				display: inline-block !important;
+				padding: 4px 10px;
+				font-size: 0.8rem;
+				font-weight: 500;
+				color: #4b5563;
+				background-color: #f3f4f6;
+				border: 1px solid #e5e7eb;
+				border-radius: 20px;
+				margin-left: 24px !important;
+				cursor: pointer;
+				transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+				white-space: nowrap;
+			}
+			
+			.copy-code-btn:hover {
+				background-color: #e5e7eb;
+				border-color: #d1d5db;
+				color: #374151;
+			}
+			
+			html.dark .copy-code-btn {
+				color: #d1d5db;
+				background-color: rgba(255, 255, 255, 0.1);
+				border-color: rgba(255, 255, 255, 0.2);
+			}
+			
+			html.dark .copy-code-btn:hover {
+				background-color: rgba(255, 255, 255, 0.15);
+				border-color: rgba(255, 255, 255, 0.3);
+				color: #e5e7eb;
+			}
+			
+			.copy-code-btn.copied {
+				color: #ffffff !important;
+				background-color: #10b981 !important;
+				border-color: #10b981 !important;
+			}
+			
+			html.dark .copy-code-btn.copied {
+				color: #ffffff !important;
+				background-color: #059669 !important;
+				border-color: #059669 !important;
+			}
+			
+			/* 确保在所有情况下都能显示 */
+			.copy-code-wrapper .copy-code-btn.copied {
+				color: #ffffff !important;
+				background-color: #10b981 !important;
+				border-color: #10b981 !important;
+			}
+			
+			html.dark .copy-code-wrapper .copy-code-btn.copied {
+				color: #ffffff !important;
+				background-color: #059669 !important;
+				border-color: #059669 !important;
+			}
+			
+			/* 推荐码段落样式 */
+			.referral-code-paragraph {
+				margin: 0;
+				display: flex;
+				align-items: center;
+				white-space: nowrap;
+				overflow-x: auto;
+				-webkit-overflow-scrolling: touch;
+				width: 100%;
+			}
+			
+			/* 移动端样式优化 */
+			@media (max-width: 768px) {
+				.referral-code-paragraph {
+					display: flex;
+					align-items: center;
+					white-space: nowrap;
+					overflow-x: auto;
+					-webkit-overflow-scrolling: touch;
+					width: 100%;
+					flex-wrap: nowrap;
+				}
+				
+				.referral-code-line {
+					display: inline-flex;
+					align-items: center;
+					flex-wrap: nowrap;
+					gap: 0;
+					white-space: nowrap;
+					flex-shrink: 0;
+				}
+				
+				.copy-code-wrapper {
+					display: inline-flex;
+					flex-shrink: 0;
+					margin-left: 6px;
+					overflow: visible;
+					gap: 24px !important;
+				}
+				
+				.copy-code-display {
+					padding: 6px 0;
+					padding-right: 0;
+					margin-right: 0;
+					font-size: 0.9em;
+					flex-shrink: 0;
+				}
+				
+				.copy-code-btn {
+					display: inline-block !important;
+					padding: 4px 10px;
+					font-size: 0.8rem;
+					margin-left: 24px !important;
+					flex-shrink: 0;
+				}
+				
+				/* 移动端复制成功状态 */
+				.copy-code-btn.copied {
+					color: #ffffff !important;
+					background-color: #10b981 !important;
+					border-color: #10b981 !important;
+				}
+				
+				html.dark .copy-code-btn.copied {
+					color: #ffffff !important;
+					background-color: #059669 !important;
+					border-color: #059669 !important;
+				}
+			}
+			
+			@media (max-width: 480px) {
+				.referral-code-paragraph {
+					font-size: 0.9em;
+				}
+				
+				.referral-code-line {
+					font-size: 0.9em;
+				}
+				
+				.copy-code-wrapper {
+					gap: 24px !important;
+				}
+				
+				.copy-code-display {
+					padding: 5px 0;
+					padding-right: 0;
+					margin-right: 0;
+					font-size: 0.85em;
+				}
+				
+				.copy-code-btn {
+					display: inline-block !important;
+					padding: 4px 10px;
+					font-size: 0.75rem;
+					margin-left: 24px !important;
+				}
+				
+				/* 小屏幕复制成功状态 */
+				.copy-code-btn.copied {
+					color: #ffffff !important;
+					background-color: #10b981 !important;
+					border-color: #10b981 !important;
+				}
+				
+				html.dark .copy-code-btn.copied {
+					color: #ffffff !important;
+					background-color: #059669 !important;
+					border-color: #059669 !important;
+				}
+			}
+			
+			/* 保留旧的样式以兼容 */
 			.copy-code-inline {
 				display: inline-block;
 				background-color: #f3f4f6;
@@ -680,7 +898,71 @@ const { title, description, headings = [] } = Astro.props;
 
 			// 为标题添加 ID（如果还没有）
 			document.addEventListener('DOMContentLoaded', () => {
-				// 内联复制代码功能
+				// 新的推荐码复制按钮功能（输入框+按钮样式）
+				const copyCodeButtons = document.querySelectorAll('.copy-code-btn');
+				console.log('找到复制按钮数量:', copyCodeButtons.length);
+				copyCodeButtons.forEach((button) => {
+					button.addEventListener('click', async (e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						const code = button.getAttribute('data-code');
+						if (!code) return;
+						
+						try {
+							await navigator.clipboard.writeText(code);
+							
+							// 更新按钮状态
+							button.classList.add('copied');
+							const originalText = button.textContent.trim();
+							button.textContent = '已复制';
+							button.style.color = '#ffffff';
+							button.style.backgroundColor = '#10b981';
+							button.style.borderLeftColor = '#10b981';
+							
+							// 1.5秒后恢复
+							setTimeout(() => {
+								button.classList.remove('copied');
+								button.textContent = originalText;
+								button.style.color = '';
+								button.style.backgroundColor = '';
+								button.style.borderLeftColor = '';
+							}, 1500);
+						} catch (err) {
+							console.error('复制失败:', err);
+							// 降级方案
+							const textArea = document.createElement('textarea');
+							textArea.value = code;
+							textArea.style.position = 'fixed';
+							textArea.style.opacity = '0';
+							document.body.appendChild(textArea);
+							textArea.select();
+							
+							try {
+								document.execCommand('copy');
+								button.classList.add('copied');
+								const originalText = button.textContent.trim();
+								button.textContent = '已复制';
+								button.style.color = '#ffffff';
+								button.style.backgroundColor = '#10b981';
+								button.style.borderLeftColor = '#10b981';
+								
+								setTimeout(() => {
+									button.classList.remove('copied');
+									button.textContent = originalText;
+									button.style.color = '';
+									button.style.backgroundColor = '';
+									button.style.borderLeftColor = '';
+								}, 1500);
+							} catch (fallbackErr) {
+								console.error('降级复制也失败:', fallbackErr);
+							}
+							
+							document.body.removeChild(textArea);
+						}
+					});
+				});
+				
+				// 内联复制代码功能（旧版本兼容）
 				const copyCodeElements = document.querySelectorAll('.copy-code-inline, .copy-hint');
 				copyCodeElements.forEach((element) => {
 					element.addEventListener('click', async () => {
