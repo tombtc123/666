@@ -1,9 +1,9 @@
 ---
-title: "科学上网工具推荐"
+title: "爱科学爱上网工具推荐"
 description: "推荐一个稳定运行 10 年的科学上网工具，稳定比便宜更重要。"
 pubDate: "2025-12-19"
 ---
-# 科学上网工具推荐
+# 爱科学爱上网工具推荐
 
 网址：<a href="https://expressskate.com/" class="external-link" target="_blank" rel="noopener noreferrer">https://expressskate.com/</a>  
 推荐码：<span class="copy-code-inline" data-code="VCp9HFDDpn" title="点击复制">VCp9HFDDpn</span> <span class="copy-hint" data-code="VCp9HFDDpn">（点击复制）</span>
@@ -45,6 +45,20 @@ pubDate: "2025-12-19"
 设置简单，不折腾  
 速度稳定，不靠运气  
 日常使用，不搞花活
+
+---
+
+## ⚠️ 重要安全提示
+
+**去了外面的世界，看看就好。**
+
+**不要发声，不要评论，不要义愤填膺，不要给自己找麻烦。**
+
+按照现在技术的先进程度和社工能力，迟早找到你。
+
+保持低调，默默浏览，这是最安全的做法。任何公开的言论、评论、转发都可能成为追踪你的线索。技术手段和社工能力已经足够强大，不要低估风险。
+
+**记住：沉默是金，安全第一。**
 
 ---
 
