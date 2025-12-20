@@ -6,7 +6,7 @@ pubDate: "2025-12-19"
 # 爱科学爱上网工具推荐
 
 网址：<a href="https://expressskate.com/" class="external-link" target="_blank" rel="noopener noreferrer">https://expressskate.com/</a>  
-推荐码：<span class="copy-code-inline" data-code="VCp9HFDDpn" title="点击复制">VCp9HFDDpn</span> <span class="copy-hint" data-code="VCp9HFDDpn">（点击复制）</span>
+折扣优惠推荐码：<span class="copy-code-inline" data-code="VCp9HFDDpn" title="点击复制">VCp9HFDDpn</span> <span class="copy-hint" data-code="VCp9HFDDpn">（点击复制）</span>
 
 ---
 
@@ -70,5 +70,5 @@ pubDate: "2025-12-19"
 ---
 
 网址：<a href="https://expressskate.com/" class="external-link" target="_blank" rel="noopener noreferrer">https://expressskate.com/</a>  
-推荐码：<span class="copy-code-inline" data-code="VCp9HFDDpn" title="点击复制">VCp9HFDDpn</span> <span class="copy-hint" data-code="VCp9HFDDpn">（点击复制）</span>
+折扣优惠推荐码：<span class="copy-code-inline" data-code="VCp9HFDDpn" title="点击复制">VCp9HFDDpn</span> <span class="copy-hint" data-code="VCp9HFDDpn">（点击复制）</span>
 
