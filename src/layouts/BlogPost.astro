@@ -458,7 +458,7 @@ const { title, description, headings = [] } = Astro.props;
 			
 			/* 推荐码容器样式 - 输入框+按钮样式 */
 			.copy-code-wrapper {
-				display: inline-flex;
+				display: inline-flex !important;
 				align-items: center;
 				background-color: transparent;
 				border-radius: 6px;
@@ -466,7 +466,8 @@ const { title, description, headings = [] } = Astro.props;
 				margin-left: 8px;
 				vertical-align: middle;
 				white-space: nowrap;
-				gap: 24px !important;
+				gap: 32px !important;
+				column-gap: 32px !important;
 			}
 			
 			html.dark .copy-code-wrapper {
@@ -478,7 +479,7 @@ const { title, description, headings = [] } = Astro.props;
 				display: inline-block;
 				padding: 8px 0;
 				padding-right: 0;
-				margin-right: 0;
+				margin-right: 40px !important;
 				font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Courier New', monospace;
 				font-weight: 600;
 				font-size: 0.95em;
@@ -488,7 +489,8 @@ const { title, description, headings = [] } = Astro.props;
 				outline: none;
 				user-select: all;
 				-webkit-user-select: all;
-				flex: 1;
+				flex: none !important;
+				flex-shrink: 0 !important;
 			}
 			
 			html.dark .copy-code-display {
@@ -498,17 +500,19 @@ const { title, description, headings = [] } = Astro.props;
 			/* 复制按钮 - Modern Pill Style */
 			.copy-code-btn {
 				display: inline-block !important;
-				padding: 4px 10px;
+				padding: 6px 14px;
 				font-size: 0.8rem;
-				font-weight: 500;
+				font-weight: 600;
 				color: #4b5563;
 				background-color: #f3f4f6;
 				border: 1px solid #e5e7eb;
 				border-radius: 20px;
-				margin-left: 24px !important;
+				margin-left: 0 !important;
 				cursor: pointer;
 				transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 				white-space: nowrap;
+				flex: none;
+				flex-shrink: 0;
 			}
 			
 			.copy-code-btn:hover {
@@ -587,27 +591,31 @@ const { title, description, headings = [] } = Astro.props;
 				}
 				
 				.copy-code-wrapper {
-					display: inline-flex;
+					display: inline-flex !important;
 					flex-shrink: 0;
 					margin-left: 6px;
 					overflow: visible;
-					gap: 24px !important;
+					gap: 32px !important;
+					column-gap: 32px !important;
 				}
 				
 				.copy-code-display {
 					padding: 6px 0;
 					padding-right: 0;
-					margin-right: 0;
+					margin-right: 40px !important;
 					font-size: 0.9em;
-					flex-shrink: 0;
+					flex: none !important;
+					flex-shrink: 0 !important;
 				}
 				
 				.copy-code-btn {
 					display: inline-block !important;
-					padding: 4px 10px;
+					padding: 6px 14px;
 					font-size: 0.8rem;
-					margin-left: 24px !important;
-					flex-shrink: 0;
+					font-weight: 600;
+					margin-left: 0 !important;
+					flex: none !important;
+					flex-shrink: 0 !important;
 				}
 				
 				/* 移动端复制成功状态 */
@@ -634,21 +642,27 @@ const { title, description, headings = [] } = Astro.props;
 				}
 				
 				.copy-code-wrapper {
-					gap: 24px !important;
+					gap: 32px !important;
+					column-gap: 32px !important;
 				}
 				
 				.copy-code-display {
 					padding: 5px 0;
 					padding-right: 0;
-					margin-right: 0;
+					margin-right: 40px !important;
 					font-size: 0.85em;
+					flex: none !important;
+					flex-shrink: 0 !important;
 				}
 				
 				.copy-code-btn {
 					display: inline-block !important;
-					padding: 4px 10px;
+					padding: 6px 14px;
 					font-size: 0.75rem;
-					margin-left: 24px !important;
+					font-weight: 600;
+					margin-left: 0 !important;
+					flex: none !important;
+					flex-shrink: 0 !important;
 				}
 				
 				/* 小屏幕复制成功状态 */
